@@ -5,7 +5,7 @@
 - プロジェクト名：asset-photo-manager
 - 文書状態：初期設計
 - 最終更新日：2026-08-31
-- 対象プラットフォーム：Android優先
+- 対象プラットフォーム：Android 7.0（API 24）以上を初期開発で優先
 
 ## 2. 文書の目的
 
@@ -56,6 +56,8 @@ AIエージェントの作業ルールは、リポジトリルートの`AGENTS.m
 
 - FlutterおよびDartでスマートフォンアプリを開発する。
 - 初期開発ではAndroidを優先する。
+- Androidの最低対応バージョンはAndroid 7.0（API 24）とし、API 23以下は対応対象に含めない。
+- FlutterプロジェクトのAndroid `minSdk`は24とする。
 - Flutterプロジェクト本体は`app/`以下に置く。
 - 備品シールを撮影し、OCRで備品番号候補を抽出する。
 - OCR結果は利用者が確認できるようにする。
@@ -74,7 +76,8 @@ AIエージェントの作業ルールは、リポジトリルートの`AGENTS.m
 
 次の事項は、現時点では確定していない。
 
-- 対応するAndroidの最低バージョン
+- Androidの`targetSdk`および`compileSdk`の具体的な値
+- Android SDK、Flutter SDK、Dart SDK、Gradle、およびAndroid Gradle Pluginの具体的なバージョン
 - 具体的な画面構成
 - アプリ内部の状態管理方式
 - ローカル永続データの管理方式
@@ -674,7 +677,7 @@ Drive上のファイル名だけに依存して、ローカルの撮影ジョブ
 | 用途         | 技術・パッケージ                        | 状態      |
 | ---------- | ------------------------------- | ------- |
 | アプリ基盤      | Flutter / Dart                  | 採用      |
-| 対象プラットフォーム | Android                         | 初期開発で優先 |
+| 対象プラットフォーム | Android 7.0（API 24）以上       | 初期開発で優先 |
 | カメラ        | `camera`                        | 候補      |
 | OCR        | `google_mlkit_text_recognition` | 候補      |
 | Google認証   | `google_sign_in`                | 候補      |
@@ -689,6 +692,8 @@ Drive上のファイル名だけに依存して、ローカルの撮影ジョブ
 ## 23. Flutterプロジェクト構成
 
 Flutterプロジェクト本体は、リポジトリルートの`app/`以下に配置する。
+
+Androidの`minSdk`は24とする。`targetSdk`、`compileSdk`、および具体的なSDK・ビルドツールのバージョンは、Flutterプロジェクト作成前に別途決定する。
 
 ```text
 asset-photo-manager/
@@ -731,6 +736,7 @@ asset-photo-manager/
 | DQ-013 | `app/lib/`以下の構成  | 実装全体             | 未決定 |
 | DQ-014 | OCR結果を正規化し、重複除去後のハイフン付き有効候補が1件の場合だけ表示する。0件または複数件は空欄から手入力する | OCR候補抽出、入力確認 | 解決済み（DEC-009） |
 | DQ-015 | 正規化対象とする類似ハイフンの厳密な一覧 | OCR正規化、テストデータ | 未決定（Q-029） |
+| DQ-016 | Androidの最低対応バージョンと`minSdk` | 対応端末、Android設定、最低環境での確認 | 解決済み（DEC-010） |
 
 これらの課題は、要件の確認と設計比較を行った後に決定する。
 重要な決定と理由は、今後作成する`docs/decisions.md`へ記録する。
